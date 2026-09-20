@@ -1,0 +1,9 @@
+# 평문 앱 목록 원본 - 절대 배포(공개)하지 않는다
+apps_data.json
+
+# 제작용 스크립트
+_encrypt_apps.py
+_make_icons.py
+
+# 문서
+README.md
