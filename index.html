@@ -472,9 +472,21 @@
     else pwEl.focus();
   })();
 
-  /* ---------- 서비스워커(설치 가능 조건) ---------- */
+  /* ---------- 서비스워커(설치 가능 조건 + 새 버전 자동 반영) ---------- */
   if('serviceWorker' in navigator){
-    window.addEventListener('load', ()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+    /* 새 서비스워커가 제어권을 넘겨받으면(=새 버전 배포됨) 한 번만 새로고침해
+       폰이 즉시 최신 앱 목록을 보게 한다. refreshing 플래그로 무한 새로고침 방지. */
+    var __swRefreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', function(){
+      if(__swRefreshing) return;
+      __swRefreshing = true;
+      window.location.reload();
+    });
+    window.addEventListener('load', function(){
+      navigator.serviceWorker.register('sw.js').then(function(reg){
+        if(reg && reg.update) reg.update().catch(function(){});
+      }).catch(function(){});
+    });
   }
 </script>
 </body>
