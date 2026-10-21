@@ -16,6 +16,10 @@
 <link rel="apple-touch-icon" href="icon-180.png" />
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
 
+<script>
+/* 글씨 크기: 기기에 저장된 단계를 첫 화면 그리기 전에 적용(잠금 화면 포함) */
+try{var _f=localStorage.getItem('officehub_font');if(_f&&/^(xsmall|small|normal|large|xlarge)$/.test(_f))document.documentElement.setAttribute('data-font',_f);}catch(e){}
+</script>
 <style>
   /* ===================== 색상 토큰 (라이트) ===================== */
   :root{
@@ -257,6 +261,21 @@
     0%,100%{transform:translateX(0);} 20%{transform:translateX(-8px);}
     40%{transform:translateX(7px);} 60%{transform:translateX(-5px);} 80%{transform:translateX(3px);}
   }
+
+  /* ===================== 글씨 크기 단계 (걷기 포인트 앱과 같은 구성: 14/16/18/20.5/23 ÷ 18) ===================== */
+  html[data-font="xsmall"]{zoom:.78;}
+  html[data-font="small"]{zoom:.89;}
+  html[data-font="large"]{zoom:1.14;}
+  html[data-font="xlarge"]{zoom:1.28;}
+  .fsz{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;margin:14px auto 0;max-width:420px;}
+  .fsz .lbl{font-size:12px;font-weight:700;color:var(--text-sub);width:100%;text-align:center;margin-bottom:2px;}
+  .fsz button{min-height:40px;padding:0 11px;border-radius:999px;border:1.5px solid var(--card-border);background:var(--card);
+    color:var(--text);font:inherit;font-size:13px;font-weight:700;cursor:pointer;}
+  .fsz button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#3a2c00;}
+  .lock-box .fsz{margin-top:16px;}
+  .lock-box .fsz .lbl{color:rgba(255,255,255,.7);}
+  .lock-box .fsz button{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.22);color:#fff;min-height:36px;font-size:12.5px;}
+  .lock-box .fsz button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#3a2c00;}
 </style>
 </head>
 <body>
@@ -273,6 +292,7 @@
     </div>
     <button type="submit" id="unlockBtn">열기</button>
     <div class="lock-msg" id="lockMsg" role="alert"></div>
+    <div class="fsz" data-fsz role="group" aria-label="글씨 크기"><span class="lbl">글씨 크기</span></div>
     <div class="lock-foot">허가된 사용자만 이용할 수 있습니다.</div>
   </form>
 </div>
@@ -309,6 +329,7 @@
 <main class="app-hidden" id="main">
   <div id="cats"></div>
   <p class="empty" id="empty"><span class="big">🔍</span>검색 결과가 없습니다.</p>
+  <div class="fsz" data-fsz role="group" aria-label="글씨 크기"><span class="lbl">글씨 크기</span></div>
   <footer>각 앱은 새 탭으로 열립니다 · 곽호석 대표님 AI 사무소</footer>
 </main>
 
@@ -322,6 +343,25 @@
   /*__ENC_PAYLOAD_BEGIN__*/
   const ENC = {"v":1,"kdf":"PBKDF2-SHA256","iter":250000,"salt":"a8GykWwlrF9rcrVQl55+OQ==","iv":"zyu0skfZQx4Hdz04","ct":"TohgIPpDRE9sBnf7dOTpxiycAQIe+I/1uO6Fu6NhMuYYXnwH0a1Rh7a5ia0V7q1qAWJ8rNK3qQm8MHUmYG+EA/qYGabnVgkELMj93+E5b2rP8Ra1C+WZLyIeD/9UQ4J+Br1CjAxQ5vK08GcuZbdJ2ptEhfqOJzdQe6v9mvuuZyFhqP+jIsCG+w1NHCPdKhqKGxa+fzpzhiaIPDBXyW41rjlujV1CbLso0SnlVqgZoelTp5hb0GX2sgulBR1+gFu6oX3dI1cDcWu67S1dHRhaDVgOMJFWE47fH626vg0+9dIVHgZRSZB5DRSdESm5iYSK35ks/MCqgoRUQhX90EcEVsAx4hPWyFG02h8DW3MZgYjDRG7Tf0NiXgPphTJ35LIykxRA0HeDA0V0ZmlTwtO9KkZP4gst5Y92n/5NG9mRTEPZM+tBioUhI+nN1rlwBRaD7Ndt19nJlGpB+BmLmi9MrosR25pp3XO/mx8iQciUsPP5Dr0Sp1gH+y/H6VjhfO9yhWuvjF7t1YAHKz3NonLSb28C2d9CPUgaeBIp4f+i25vWGvAVR269Xvvqm11Xt2UB3Azfxw2vdUO0iPTQT63i7t/XVW5cJ9KGjQYbPW3Iv3+MF7lrqWYUGf7F7wObGjpm9NMOIl7VHjx9fDefhWzv36eQvJXPpRDGT/MgF5cI4MpGS3NrqJVfolvp877rwMPvR2GTHeuK85os/yqHqXorFTz4rG69mCZK5wQeJQH19JedwK8KWtIRzEeOKTdS27KBycUX0DgscCA8G+xoj4LBLINGiayaW0rAbwMhXZSTYz+KRGA/Se4gqcBPdyj0xNC0Vi0jeYdVFYjxZ+mZ2U8IGIwVOFYmOiKtZPstxCmfWhJzIg8URCcDY9yntIXafWixj7qCXj/KKWkoVC1jEnoj1VTgMUesQZgzWRMYTYdQVQ0xEq6sjMUXXal7cpl122V+CxMCdCz2QAS09sQP0vToAaolGI8UEd1Eqw8AtQBCgZcIDR79qChX//CDM2+nO8XxbcmkY4wjxsuH4JPZTenXvkX2JOHf/msnPZnQYjJoQ2udTgVPZ4QSTgbFHbUywSOqfXWYnk/gfGJODBPWQ8fBoinFFcLtWYX3Ex3/z+QnneYINieXBLDolHfgY7WuNJeCS9ssiSiUaSO4G8iKLilGNyYpfTqMsTphAHw6Kx71fSzAME/QguCraP375dGPOakUpqQwIMVdEDG6uuos/W5qa95qZzcQzVTdlinADfPNKhC/iGfSxQgY5z5l/y0TUtlz2xPFRDJXUeVhSqUyh62cjL0Y68jOWdOgRujRqrvKUHA9KqPUVPdRL0tG3s3kZwfzR/RB49G8B8tA+QndUUhNCwc8W6sDxdZe6MFB1Yfuzb6e7tOqPV7ORmsQhirzGtOXFxjEUqcChy82u9Z88dDklOM2yuIDrE/HTmy9vQi7x/XSIlp4vFhhOPcHFHDQ8FG0Vn7wq3vPO+mVBcrMk5ZJ8wkt9iMQoBP3Rb2eKhTVb9hbMevjvqVczrovAZ2R436bv5f18S3Rv5zwD3aXkXV7NK/aoPyiYqgliV2qexoKhxmSaOIUXxxLziBqV0JXRTDEGBtT8fECw1/MpOtsFUC6KkHbLT87uRVjqusdUg9ZeuwKKDNOCZMH7/Ke5/HNqLd4EzdmspPEqTaybCxaWsdbUb3lbI1XG8FIiuq+XAobr9wWUVzMoh6JKdXEYuObtoOrSFeownF2EOX1Wzbu7eQRQ9EEAbv6J2SWKIRhAu/+IjEw5eQA/Y0Gq5HcYlIynhcHzrOUOAFb7lriCszqo/dNP4uQg8lqPit2g56fLxINmVgXV0w2MdhS9hIZjMlZoyc4MxeQpYCntl11JYG8xmB7QeBvJGpNlUYrUIeQASLPotf8i3xvW155DlMyEe7v8b5QfQp4MaFtMy5u5HGTxTOynO5P8gHTnzyABxzz6rD2zQK2PEKxyyJe5MgE9/R8Fypolmng77n/cDMVo5N+zj2MMmrswuLP2/u4rz64A+AHhOgUphKWrjZs9NTXSK+KICqchqzhZNSBww/wv27l0kj3L1j4MnSjNOuIZttBOgHGOPoP5Wwo4hDspV4EgdbI5Wcy7uFjeIEc7DiSsupkU63YwAGNTPufUUDLlhcn5BfFClL9V+WqNyqxitiXmUzl0FbvCjjwA2egrl8wNx+ey/QFSvLLpUXldv0yg4B+3MUiXs6ESBG+OVapflpD4H67yL2Z2Mx9ysX7VbvVAOxVPpOXlKeOsdLIxHp189ag6RiLkNngWLigcJ1cokU23d4tiPL0ckFshDh73Nm5Z/B9/cv51ZQ4LB3k+IhbPGC1hvrAs415UP9MvM9CtI4heB/ub3K71+ql/pkhbfdrnQZZjyLVU6rK5Z8+IWN4sD3Jat9VvMukIHkP4ICfjONOtV33EiouavZEGvcS7LTQUMpu7ie8WoCIh1lRXn/TA9IL1qHl8xlKTNilsWnTherrEj+1PoGswv+f3nrArdoVXB2FpBRnEaBgNZwac6sRp/Z57qdMzgf/6HPPk94KZXFoa/m45paeo90y3IzppM0M3+3lAcTrfv4owDjqrc8YA0xlZmBURJOTHVPfwm/BcY0e0p6G0kKeBgqIffsq2Z0IrXkao8iHaydYi2j/zCciUw+nfZKXG1utHn0IaI7LgiQuezwfMyff6Sv4C+RUREAnUPOynKw3ujqUhhK+s8z5zhr6oE070thO412YO47wuKQo6DniDzLl8G/bDNqkfFbM9/eBdWMmuaIEOXp2KwJUfXsUNQ1QOFKI8Ate1EduTjfqkQ9e2l8vF159HiUNnrR4o4OKd/bbIAVstAzPSIsZmc3jHh5obDpglRZp86KVnWm8Zi0H5VGU2Tn9+OZRzOSLFVDjD5NjJU/kRJjZWkLh1LqG3PIb+fJ/dZnAj8NpOjX17Vpa9Nr7P3CuduS144CBcegr3BswxX366OUHkHJfoRwU4GN4CyQUa6To4KeuUxGI8FqQUWsBN2SCeBxKIcuMWhNrBTItSl6FGZ6wR7HeUa142zZ6fs+7jh6cmzhDRlgWmlPBenxxUbuNuj2mkCI50lIeQfnjyjoDuiBP5ZeuWjiQIY1g6GCKyTQDng+VcPK4nNYp6/XcJ0Iy8Td1kNdLUbmzv63+TlBs2V9zysB591RlGu0izYDoqdHOvx/Kj465PI7f/D076GIbCm2N0V1tbMUB20aoXtp/PP3mS98lumsPldjhNB8ib8wQPEzANQW90INKrpYnae1HdQshx6pPhDYF5gbaUEYz8uv+AJGwwNX9ypxuZg1pR6iObdBwT1Fo96Yi41V7TKNQRBjsxbm6tESiRL/srJQbznrNzUfwbPmbJo8l/7W/4SH0Ls9vnnakgxSuXR0VtA=="};
   /*__ENC_PAYLOAD_END__*/
+
+  /* ---------- 글씨 크기 선택(기기에 저장) ---------- */
+  const FONTS = [['xsmall','아주 작게'],['small','작게'],['normal','보통'],['large','크게'],['xlarge','아주 크게']];
+  function curFont(){ return document.documentElement.getAttribute('data-font') || 'normal'; }
+  function paintFont(){
+    document.querySelectorAll('[data-fsz] button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.v===curFont() ? 'true':'false'));
+  }
+  document.querySelectorAll('[data-fsz]').forEach(box=>{
+    FONTS.forEach(([v,t])=>{
+      const b=document.createElement('button'); b.type='button'; b.dataset.v=v; b.textContent=t;
+      b.addEventListener('click', ()=>{
+        document.documentElement.setAttribute('data-font', v);
+        try{ localStorage.setItem('officehub_font', v); }catch(e){}
+        paintFont();
+      });
+      box.appendChild(b);
+    });
+  });
+  paintFont();
 
   const LS_KEY = 'officehub_pw';   // 인증된 비번을 기기에 보관(다음 접속 시 자동 열림)
 
