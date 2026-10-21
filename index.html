@@ -18,7 +18,7 @@
 
 <script>
 /* 글씨 크기: 기기에 저장된 단계를 첫 화면 그리기 전에 적용(잠금 화면 포함) */
-try{var _f=localStorage.getItem('officehub_font');if(_f&&/^(xsmall|small|normal|large|xlarge)$/.test(_f))document.documentElement.setAttribute('data-font',_f);}catch(e){}
+try{var _f=localStorage.getItem('officehub_font');if(_f&&/^(xxsmall|xsmall|small|normal|large|xlarge)$/.test(_f))document.documentElement.setAttribute('data-font',_f);}catch(e){}
 </script>
 <style>
   /* ===================== 색상 토큰 (라이트) ===================== */
@@ -263,6 +263,7 @@ try{var _f=localStorage.getItem('officehub_font');if(_f&&/^(xsmall|small|normal|
   }
 
   /* ===================== 글씨 크기 단계 (걷기 포인트 앱과 같은 구성: 14/16/18/20.5/23 ÷ 18) ===================== */
+  html[data-font="xxsmall"]{zoom:.67;}
   html[data-font="xsmall"]{zoom:.78;}
   html[data-font="small"]{zoom:.89;}
   html[data-font="large"]{zoom:1.14;}
@@ -345,7 +346,7 @@ try{var _f=localStorage.getItem('officehub_font');if(_f&&/^(xsmall|small|normal|
   /*__ENC_PAYLOAD_END__*/
 
   /* ---------- 글씨 크기 선택(기기에 저장) ---------- */
-  const FONTS = [['xsmall','아주 작게'],['small','작게'],['normal','보통'],['large','크게'],['xlarge','아주 크게']];
+  const FONTS = [['xxsmall','가장 작게'],['xsmall','아주 작게'],['small','작게'],['normal','보통'],['large','크게'],['xlarge','아주 크게']];
   function curFont(){ return document.documentElement.getAttribute('data-font') || 'normal'; }
   function paintFont(){
     document.querySelectorAll('[data-fsz] button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.v===curFont() ? 'true':'false'));

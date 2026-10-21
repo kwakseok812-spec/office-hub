@@ -9,7 +9,7 @@
  *  - 아이콘·manifest 등 정적 파일: cache-first (성능 유지, 잘 안 바뀜)
  *  - 캐시 이름을 올려(v5: 2026-10-22 글씨 크기 선택 추가, v3: 2026-10-20 걷기 포인트 카드 교체) activate 때 옛 v1 캐시가 자동 삭제되게 함.
  */
-const CACHE = 'office-hub-v5';
+const CACHE = 'office-hub-v6';
 const SHELL = [
   './',
   './index.html',
